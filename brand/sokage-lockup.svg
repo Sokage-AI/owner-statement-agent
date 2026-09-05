@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64" role="img" aria-label="Sokage AI">
+  <rect width="64" height="64" rx="15" fill="#1B1715"/>
+  <path d="M13 17 h27 l11 11 h-27 z" fill="#EE6A1A"/>
+  <path d="M13 36 h27 l11 11 h-27 z" fill="#FFFFFF"/>
+  <text x="80" y="42" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-0.5" fill="#1B1715">Sokage</text>
+  <text x="205" y="42" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-0.5" fill="#EE6A1A">AI</text>
+</svg>

@@ -1,4 +1,4 @@
-<img src="brand/sokage-mark.svg" alt="Sokage" width="72" height="72">
+<img src="brand/sokage-mark.svg" alt="Sokage" width="76" height="76">
 
 # Owner Statement Agent
 
@@ -151,6 +151,7 @@ is safe.**
 | **[tests/](tests/)** | 14 adversarial test statements. Five are ship-blocking |
 | **[test-results/](test-results/)** | All 159 runs. Fifteen readable in the browser, the rest zipped |
 | **[sample-exports/](sample-exports/)** | Three CSVs to try it on before using real data |
+| **[brand/](brand/)** | The Sokage mark, every format and colourway, with usage rules |
 
 ---
 
