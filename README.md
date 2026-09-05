@@ -1,3 +1,5 @@
+<img src="brand/sokage-mark.svg" alt="Sokage" width="72" height="72">
+
 # Owner Statement Agent
 
 **Your software produces the statement. It does not produce the explanation — so the owner calls
