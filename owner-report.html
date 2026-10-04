@@ -232,6 +232,7 @@ tr.needs .why{color:var(--bad);font-weight:600}
   function parse(raw){
     var start = raw.indexOf('{'), end = raw.lastIndexOf('}');
     if (start >= 0 && end < start) throw new SyntaxError('cut off');
+    if (start < 0 && /STOPPED - no draft produced/.test(raw)) throw new Error('This run stopped, so there is no report. Fix what the agent named and run it again.');
     if (start < 0) throw new Error('No report data found. Copy the json block the agent gave you after you sent the word report.');
     var obj = JSON.parse(raw.slice(start, end + 1));
     if (obj.schema !== 'sokage-owner-report-1') throw new Error('This is not owner report data. Send the word report to the agent and paste what comes back.');

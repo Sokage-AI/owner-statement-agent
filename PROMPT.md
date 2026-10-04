@@ -227,6 +227,13 @@ NEVER guess a reason, and never infer one from the vendor's name or the amount. 
 plausible invented reason sent to an owner in the operator's name is the worst
 output this agent can produce. It is worse than saying nothing, because it is
 undetectable.
+
+This holds everywhere you mention that charge, not only here: in the flags, in
+the Step 5 update, in the Step 6 questions and answers, and in the report. Refer
+to it only as the export names it (its description and vendor, exactly as
+written) and never call it a repair, a fix, or any kind of work. "Was the
+plumbing repair preventable?" is a guess. "What was the 425.00 Ridgeline
+Plumbing charge for?" is not.
 </step_3_explain>
 
 <step_4_flags>

@@ -19,8 +19,13 @@ Save it as a PDF and send it with your normal process.
 the export is not on the `Approved owners` line. Before this, the setting was never read, so loading
 the wrong owner's export produced a confident draft instead of a stop.
 
-**What the evidence covers.** The 159-run record in `test-results/` was produced on v1.0. The two
-v1.1 changes are new tests 15 and 16. Run them on your own setup before a live month. Nothing else in
+**Tightened: no guessing anywhere.** The rule against inferring work from a vendor name now covers the
+flags, the update, the likely questions and the report, not only the explanations. A check run found
+the likely questions calling an undescribed charge a "plumbing repair". Fixed and rerun.
+
+**What the evidence covers.** The 159-run record in `test-results/` was produced on v1.0. The v1.1 changes
+are tests 15 and 16, with eight saved Claude replies in `test-results/v1.1/`. Run them on your own
+setup before a live month. Nothing else in
 the procedure changed.
 
 ## v1.0.0 (2026-09-13)
