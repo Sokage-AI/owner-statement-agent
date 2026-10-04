@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Report</title>
+<!--
+  Owner Statement Agent: owner report page.
+  Open this file in any browser. Paste the report data the agent gives you after the word "report".
+  Everything happens on your computer. This page loads nothing from the internet and sends nothing.
+  It never calculates a figure. It shows the figures in the report data exactly as given.
+-->
+<style>
+:root{
+  --accent:#EE6A1A; --ink:#1B1715; --ink-2:#5F5852; --ink-3:#8D837C;
+  --page:#FBF7F3; --card:#FFFFFF; --soft:#FFF1E6; --rule:rgba(30,20,15,.10); --rule-soft:rgba(30,20,15,.06);
+  --green:#4C6A1E; --warn:#9A4A12; --bad:#C0392B;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sh:0 1px 2px rgba(30,20,15,.06),0 2px 8px rgba(30,20,15,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15.5px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit}
+.wrap{max-width:920px;margin:0 auto;padding:28px 16px 64px}
+
+/* tools (screen only) */
+.tools{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:20px 22px;margin-bottom:22px;box-shadow:var(--sh)}
+.tools h1{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+.tools p{margin:0 0 12px;color:var(--ink-2);font-size:14.5px}
+textarea{width:100%;min-height:150px;border:1px solid var(--rule);border-radius:10px;padding:12px;font:13px/1.5 var(--mono);background:var(--page);resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:12px;font-size:14px;color:var(--ink-2)}
+.row label{display:flex;align-items:center;gap:8px}
+.row input[type=text]{width:64px;padding:6px 8px;border:1px solid var(--rule);border-radius:8px}
+input[type=color]{width:38px;height:30px;border:1px solid var(--rule);border-radius:8px;padding:2px;background:#fff}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--rule)}
+.msg{margin-top:12px;font-size:14px;border-radius:10px;padding:10px 14px;display:none}
+.msg.err{display:block;background:#fdecea;color:var(--bad)}
+.review{background:var(--card);border:1px solid var(--rule);border-left:5px solid var(--warn);border-radius:14px;padding:18px 22px;margin-bottom:22px}
+.review h2{font-size:16px;margin:0 0 8px}
+.review ul{margin:6px 0 0;padding-left:20px;font-size:14.5px}
+.review .ok{color:var(--green);font-weight:700}
+
+/* report */
+#report{display:none}
+.sheet{background:var(--card);border:1px solid var(--rule);border-radius:14px;box-shadow:var(--sh);overflow:hidden}
+.head{padding:30px 32px 24px;background:linear-gradient(180deg,var(--soft),#fff);border-bottom:1px solid var(--rule-soft);position:relative}
+.head::before{content:"";position:absolute;left:0;top:0;right:0;height:5px;background:var(--accent)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand img{max-height:44px;max-width:180px;display:none}
+.brand .firm{font-weight:800;font-size:16px}
+.kicker{font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.head h2{font-size:clamp(26px,4.6vw,36px);line-height:1.15;letter-spacing:-.022em;margin:6px 0 8px;font-weight:800;text-wrap:balance}
+.head .lede{color:var(--ink-2);font-size:17px;margin:0;max-width:62ch}
+.draft{display:none;margin:16px 0 0;background:#fff;border:1px dashed var(--warn);color:var(--warn);border-radius:10px;padding:8px 12px;font:700 12.5px var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.body{padding:8px 32px 30px}
+section{padding:22px 0;border-bottom:1px solid var(--rule-soft)}
+section:last-child{border-bottom:0}
+h3{font-size:18px;margin:0 0 12px;letter-spacing:-.01em}
+.figs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.fig{border:1px solid var(--rule);border-radius:12px;padding:14px;background:var(--page)}
+.fig .lab{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.fig .val{font-size:22px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fig.main{background:var(--soft);border-color:transparent}
+.fig.main .val{color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{text-align:left;font:700 11.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:0 10px 8px 0;border-bottom:1px solid var(--rule)}
+td{padding:11px 10px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+td.amt,th.amt{text-align:right;padding-right:0;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .sub{display:block;color:var(--ink-3);font-size:13px}
+tr.needs td{background:#fdecea}
+tr.needs .why{color:var(--bad);font-weight:600}
+.bars{display:grid;gap:9px;margin-top:16px}
+.bar{display:grid;grid-template-columns:150px 1fr 90px;gap:12px;align-items:center;font-size:13.5px}
+.bar .track{height:12px;background:var(--rule-soft);border-radius:100px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);border-radius:100px}
+.bar .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.cols{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:10px;border-bottom:1px solid var(--rule)}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px}
+.col .stick{width:100%;max-width:56px;background:var(--rule);border-radius:6px 6px 0 0}
+.col.now .stick{background:var(--accent)}
+.col .n{font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.labels{display:flex;gap:10px;margin-top:6px}
+.labels span{flex:1;text-align:center;font:600 11.5px var(--mono);color:var(--ink-3)}
+.qa details{border:1px solid var(--rule);border-radius:10px;margin-bottom:8px}
+.qa summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;gap:12px}
+.qa summary::after{content:"+";margin-left:auto;color:var(--ink-3);font-size:18px;line-height:1.2}
+.qa details[open] summary::after{content:"\2212"}
+.qa p{margin:0;padding:0 16px 14px;color:var(--ink-2)}
+.note{background:var(--page);border-radius:10px;padding:14px 16px;color:var(--ink-2)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink-2)}
+.check b{color:var(--green)}
+.foot{padding:20px 32px;background:var(--page);border-top:1px solid var(--rule-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13.5px}
+.foot .sign{font-weight:800}
+.foot .made{color:var(--ink-3)}
+@media (max-width:760px){
+  .figs{grid-template-columns:1fr;gap:6px}
+  .fig{display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
+  .fig .val{font-size:18px}
+  .cols{gap:4px}
+  .col{min-width:0}
+  .col .n{display:none}
+  .col.now .n{display:block}
+  .labels{gap:4px}
+  .labels span{font-size:9.5px;overflow-wrap:anywhere}
+  .head,.body,.foot{padding-left:20px;padding-right:20px}
+  .bar{grid-template-columns:100px 1fr 76px}
+  .hide-sm{display:none}
+}
+@media print{
+  body{background:#fff}
+  .wrap{padding:0;max-width:none}
+  .tools,.review,.no-print{display:none!important}
+  .sheet{border:0;box-shadow:none;border-radius:0}
+  section,.fig,tr{break-inside:avoid}
+  .qa details{border:0}
+  .qa summary::after{display:none}
+  .qa p{display:block}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="tools no-print" id="tools">
+  <h1>Owner report</h1>
+  <p>Paste the report data from the agent (everything inside the json block, or the whole reply), then build the report. Nothing leaves this computer.</p>
+  <textarea id="input" spellcheck="false" placeholder='{"schema": "sokage-owner-report-1", ...}'></textarea>
+  <div class="row">
+    <button class="btn" id="build">Build the report</button>
+    <button class="btn ghost" id="example">Show an example</button>
+    <label>Your colour <input type="color" id="colour" value="#EE6A1A"></label>
+    <label>Your logo <input type="file" id="logo" accept="image/*"></label>
+    <label>Currency <input type="text" id="cur" value="$" maxlength="4"></label>
+    <label><input type="checkbox" id="made" checked> Show "Drafted with Sokage" line</label>
+  </div>
+  <div class="msg" id="msg"></div>
+</div>
+
+<div class="review no-print" id="review" hidden>
+  <h2>Before this goes to the owner</h2>
+  <div id="reviewBody"></div>
+  <div class="row">
+    <label><input type="checkbox" id="reviewed"> I have checked every figure against the statement and resolved every flag</label>
+    <button class="btn ghost" id="print" disabled>Save as PDF or print</button>
+  </div>
+</div>
+
+<div id="report">
+  <div class="sheet">
+    <div class="head">
+      <div class="brand"><img id="logoImg" alt=""><span class="firm" id="firm"></span></div>
+      <div class="kicker" id="kicker"></div>
+      <h2 id="title"></h2>
+      <p class="lede" id="summary"></p>
+      <div class="draft" id="draft">Draft for review. Not sent.</div>
+    </div>
+    <div class="body">
+      <section>
+        <h3>Your month at a glance</h3>
+        <div class="figs" id="figs"></div>
+      </section>
+      <section>
+        <h3>Where the money went</h3>
+        <table id="expenses"></table>
+        <div class="bars" id="bars"></div>
+      </section>
+      <section>
+        <h3>Money in</h3>
+        <table id="income"></table>
+      </section>
+      <section id="histSec">
+        <h3>Paid to you, recent months</h3>
+        <div class="cols" id="cols"></div>
+        <div class="labels" id="colLabels"></div>
+      </section>
+      <section id="qaSec" class="qa">
+        <h3>Questions you might have</h3>
+        <div id="qa"></div>
+      </section>
+      <section id="nextSec">
+        <h3>Next month</h3>
+        <div class="note" id="next"></div>
+      </section>
+      <section>
+        <div class="check" id="check"></div>
+      </section>
+    </div>
+    <div class="foot">
+      <span class="sign" id="sign"></span>
+      <span class="made" id="madeLine">Drafted with the Sokage Owner Statement Agent. Checked by a person before sending.</span>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var store = {
+    get: function(k){ try { return localStorage.getItem('osa-' + k); } catch(e){ return null; } },
+    set: function(k, v){ try { localStorage.setItem('osa-' + k, v); } catch(e){} }
+  };
+  var data = null;
+
+  // Restore the firm's look from last time.
+  if (store.get('colour')) $('colour').value = store.get('colour');
+  if (store.get('cur') !== null) $('cur').value = store.get('cur');
+  if (store.get('made') === '0') $('made').checked = false;
+  if (store.get('logo')) { $('logoImg').src = store.get('logo'); $('logoImg').style.display = 'block'; }
+
+  function applyLook(){
+    document.documentElement.style.setProperty('--accent', $('colour').value);
+    $('madeLine').style.display = $('made').checked ? '' : 'none';
+    store.set('colour', $('colour').value); store.set('cur', $('cur').value); store.set('made', $('made').checked ? '1' : '0');
+    if (data) render();
+  }
+  ['colour','cur','made'].forEach(function(id){ $(id).addEventListener('input', applyLook); $(id).addEventListener('change', applyLook); });
+  $('logo').addEventListener('change', function(e){
+    var f = e.target.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(){ $('logoImg').src = r.result; $('logoImg').style.display = 'block'; store.set('logo', r.result); };
+    r.readAsDataURL(f);
+  });
+
+  function fail(text){ var m = $('msg'); m.className = 'msg err'; m.textContent = text; data = null; $('report').style.display = 'none'; $('review').hidden = true; }
+
+  // Accepts the bare object, a ```json block, or the whole agent reply.
+  function parse(raw){
+    var start = raw.indexOf('{'), end = raw.lastIndexOf('}');
+    if (start >= 0 && end < start) throw new SyntaxError('cut off');
+    if (start < 0) throw new Error('No report data found. Copy the json block the agent gave you after you sent the word report.');
+    var obj = JSON.parse(raw.slice(start, end + 1));
+    if (obj.schema !== 'sokage-owner-report-1') throw new Error('This is not owner report data. Send the word report to the agent and paste what comes back.');
+    if (!obj.figures || !obj.owner) throw new Error('The report data is missing the owner or the figures. Ask the agent for the report again.');
+    if (/^STOPPED/.test(obj.handoff || '')) throw new Error('This run stopped, so there is no report. Fix what the agent named and run it again.');
+    return obj;
+  }
+
+  // Display only. Turns "1,450.00" into a number to size a bar. Nothing is added up.
+  var num = function(s){ var n = parseFloat(String(s).replace(/[^0-9.\-]/g, '')); return isNaN(n) ? 0 : n; };
+  var money = function(s){ return s === '' || s == null ? '' : esc($('cur').value) + esc(s); };
+  var needs = function(t){ return /NEEDS A HUMAN/i.test(t || ''); };
+
+  function render(){
+    var d = data, f = d.figures;
+    $('firm').textContent = d.sign_off || '';
+    $('kicker').textContent = 'Owner statement, ' + (d.period_label || d.period || '');
+    $('title').textContent = d.subject || ('Your ' + (d.period_label || '') + ' statement');
+    $('summary').textContent = d.summary || '';
+    $('figs').innerHTML = [
+      ['Beginning balance', f.beginning], ['Money in', f.income], ['Expenses', f.expenses],
+      ['Paid to you', f.distributions, 'main'], ['Ending balance', f.ending]
+    ].map(function(x){ return '<div class="fig ' + (x[2] || '') + '"><div class="lab">' + x[0] + '</div><div class="val">' + money(x[1]) + '</div></div>'; }).join('');
+
+    var ex = d.expenses || [];
+    $('expenses').innerHTML = '<tr><th>Item</th><th class="hide-sm">What this was for</th><th class="amt">Amount</th></tr>' + ex.map(function(e){
+      return '<tr class="' + (needs(e.explanation) ? 'needs' : '') + '"><td>' + esc(e.description) + '<span class="sub">' + esc([e.date, e.unit && e.unit !== 'ALL' ? 'Unit ' + e.unit : ''].filter(Boolean).join(' \u00b7 ')) + '</span><span class="sub why" style="display:none"></span></td><td class="hide-sm why">' + esc(e.explanation) + '</td><td class="amt">' + money(e.amount) + '</td></tr>';
+    }).join('');
+    // On small screens the explanation moves under the item name.
+    if (window.matchMedia('(max-width:760px)').matches) {
+      Array.prototype.forEach.call($('expenses').querySelectorAll('tr'), function(tr, i){ if (!i) return; var s = tr.querySelector('span.why'); s.textContent = ex[i-1].explanation; s.style.display = 'block'; });
+    }
+    var max = Math.max.apply(null, ex.map(function(e){ return num(e.amount); }).concat([1]));
+    $('bars').innerHTML = ex.map(function(e){
+      return '<div class="bar"><span>' + esc(e.description.replace(/\s+-\s+.*/, '')) + '</span><div class="track"><div class="fill" style="width:' + (num(e.amount) / max * 100).toFixed(1) + '%"></div></div><span class="n">' + money(e.amount) + '</span></div>';
+    }).join('');
+
+    $('income').innerHTML = '<tr><th>Item</th><th class="hide-sm">Detail</th><th class="amt">Amount</th></tr>' + (d.income || []).map(function(r){
+      return '<tr><td>' + esc(r.description) + '<span class="sub">' + esc([r.date, r.unit ? 'Unit ' + r.unit : ''].filter(Boolean).join(' \u00b7 ')) + '</span></td><td class="hide-sm">' + esc(r.memo) + '</td><td class="amt">' + money(r.amount) + '</td></tr>';
+    }).join('');
+
+    var hist = (d.distribution_history || []).slice(-6).map(function(h){ return {label: h.period, amount: h.amount}; });
+    if (hist.length) {
+      hist.push({label: 'This month', amount: f.distributions, now: true});
+      var hmax = Math.max.apply(null, hist.map(function(h){ return num(h.amount); }).concat([1]));
+      $('cols').innerHTML = hist.map(function(h){ return '<div class="col ' + (h.now ? 'now' : '') + '"><span class="n">' + money(h.amount) + '</span><div class="stick" style="height:' + Math.max(4, num(h.amount) / hmax * 120).toFixed(0) + 'px"></div></div>'; }).join('');
+      $('colLabels').innerHTML = hist.map(function(h){ return '<span>' + esc(h.label) + '</span>'; }).join('');
+      $('histSec').style.display = '';
+    } else $('histSec').style.display = 'none';
+
+    var qs = d.questions || [];
+    $('qa').innerHTML = qs.map(function(q){ return '<details open><summary>' + esc(q.question) + '</summary><p>' + esc(q.answer) + '</p></details>'; }).join('');
+    $('qaSec').style.display = qs.length ? '' : 'none';
+    $('next').textContent = d.attention_next_month || '';
+    $('nextSec').style.display = d.attention_next_month ? '' : 'none';
+    $('check').innerHTML = /PASSED/.test(d.cross_check || '') ? '<b>Checked.</b><span>Every line on this report was re-added against your statement before it was written, and the totals match.</span>' : '';
+    $('check').parentNode.style.display = /PASSED/.test(d.cross_check || '') ? '' : 'none';
+    $('sign').textContent = d.sign_off || '';
+
+    // Review panel: flags and unexplained charges are for the manager, never for the owner.
+    var open = (d.flags || []), missing = ex.filter(function(e){ return needs(e.explanation); });
+    var items = open.map(function(x){ return '<li>' + esc(x) + '</li>'; }).concat(missing.map(function(e){ return '<li>No explanation yet for ' + esc(e.description) + ' (' + money(e.amount) + '). Get the work order or invoice, then run the agent again with the corrected export.</li>'; }));
+    $('reviewBody').innerHTML = (items.length ? '<ul>' + items.join('') + '</ul>' : '<p class="ok">The agent raised no flags on this month.</p>') + '<p style="margin:10px 0 0;color:var(--ink-2);font-size:14px">' + esc(d.cross_check || '') + '<br>' + esc(d.handoff || '') + '</p>';
+    $('review').hidden = false;
+    if (missing.length) { $('reviewed').checked = false; $('reviewed').disabled = true; $('reviewed').parentNode.title = 'A charge has no explanation. Rerun the agent first.'; }
+    else $('reviewed').disabled = false;
+    syncReviewed();
+    $('report').style.display = 'block';
+  }
+
+  function syncReviewed(){
+    var ok = $('reviewed').checked;
+    $('draft').style.display = ok ? 'none' : 'inline-block';
+    $('print').disabled = !ok;
+  }
+  $('reviewed').addEventListener('change', syncReviewed);
+  $('print').addEventListener('click', function(){ window.print(); });
+
+  $('build').addEventListener('click', function(){
+    $('msg').className = 'msg';
+    try { data = parse($('input').value); applyLook(); render(); $('review').scrollIntoView({behavior: 'smooth'}); }
+    catch (e) { fail(e.message.indexOf('JSON') >= 0 || e instanceof SyntaxError ? 'The report data is cut off or changed. Copy the whole json block again, from the first { to the last }.' : e.message); }
+  });
+  var EXAMPLE = {"schema": "sokage-owner-report-1", "owner": "Marcus Webb", "period": "2026-07-01 to 2026-07-31", "period_label": "July 2026", "subject": "Your July 2026 statement", "summary": "July was a routine month, and 3,600.00 went out to you on the 31st.", "cross_check": "CROSS-CHECK PASSED - derived 1,202.60 matches stated 1,202.60.", "figures": {"beginning": "1,240.00", "income": "4,450.00", "expenses": "887.40", "distributions": "3,600.00", "ending": "1,202.60"}, "income": [{"date": "2026-07-03", "description": "Rent received", "memo": "July base rent", "unit": "12A", "amount": "1,450.00"}, {"date": "2026-07-02", "description": "Rent received", "memo": "July base rent", "unit": "12B", "amount": "1,325.00"}, {"date": "2026-07-05", "description": "Rent received", "memo": "July base rent", "unit": "14", "amount": "1,600.00"}, {"date": "2026-07-09", "description": "Late fee", "memo": "12B - received 2 days late", "unit": "12B", "amount": "75.00"}], "expenses": [{"date": "2026-07-31", "description": "Management fee", "explanation": "The monthly fee, 8% of the 4,375.00 base rent collected.", "unit": "ALL", "amount": "350.00"}, {"date": "2026-07-18", "description": "Maintenance - Ridgeline Plumbing", "explanation": "Kitchen faucet cartridge replacement in unit 12A.", "unit": "12A", "amount": "180.00"}, {"date": "2026-07-05", "description": "Landscaping - GreenSpan", "explanation": "The monthly grounds contract.", "unit": "ALL", "amount": "145.00"}, {"date": "2026-07-22", "description": "Water / sewer - City Utilities", "explanation": "The July utility billing.", "unit": "ALL", "amount": "212.40"}], "distributions": [{"date": "2026-07-31", "description": "Owner distribution", "amount": "3,600.00"}], "flags": [], "attention_next_month": "Nothing needs your attention before next month.", "questions": [{"question": "What was the management fee calculated on?", "answer": "It is 8% of the 4,375.00 of base rent collected in July. The 75.00 late fee is not included."}, {"question": "Could the plumbing repair have been avoided?", "answer": "The statement records a kitchen faucet cartridge replacement in unit 12A for 180.00. It does not say what caused it, so we would check the work order before answering that."}, {"question": "Why is 1,202.60 left in the account?", "answer": "That is the ending balance the statement shows after your 3,600.00 distribution went out on the 31st."}], "distribution_history": [{"period": "2026-01", "amount": "3,600.00"}, {"period": "2026-02", "amount": "3,675.00"}, {"period": "2026-03", "amount": "3,540.00"}, {"period": "2026-04", "amount": "3,610.00"}, {"period": "2026-05", "amount": "3,480.00"}, {"period": "2026-06", "amount": "3,600.00"}], "sign_off": "Ridgeline Property Management", "handoff": "DRAFT - not sent. 0 flags open. Human review required before release."};
+  $('example').addEventListener('click', function(){ $('input').value = JSON.stringify(EXAMPLE, null, 2); $('build').click(); });
+  applyLook();
+})();
+</script>
+</body>
+</html>

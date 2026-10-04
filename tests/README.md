@@ -48,3 +48,10 @@ actually exports.
 ## Results
 
 Ours are in [../test-results/](../test-results/) — 159 runs, all passed, three models.
+
+## Added in v1.1
+
+| Test | What it checks |
+|---|---|
+| [15](test-15-owner-not-approved.md) | An owner not on the `Approved owners` line stops at the gate |
+| [16](test-16-owner-report.md) | The `report` data restates the run, adds nothing, and is refused after a stop |

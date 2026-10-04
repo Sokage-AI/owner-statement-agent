@@ -1,0 +1,48 @@
+{
+  "schema": "sokage-owner-report-1",
+  "owner": "Marcus Webb",
+  "period": "2026-07-01 to 2026-07-31",
+  "period_label": "July 2026",
+  "subject": "Your July 2026 statement",
+  "summary": "July was a routine month, and 3,600.00 went out to you on the 31st.",
+  "cross_check": "CROSS-CHECK PASSED - derived 1,202.60 matches stated 1,202.60.",
+  "figures": {
+    "beginning": "1,240.00",
+    "income": "4,450.00",
+    "expenses": "887.40",
+    "distributions": "3,600.00",
+    "ending": "1,202.60"
+  },
+  "income": [
+    {"date": "2026-07-03", "description": "Rent received", "memo": "July base rent", "unit": "12A", "amount": "1,450.00"},
+    {"date": "2026-07-02", "description": "Rent received", "memo": "July base rent", "unit": "12B", "amount": "1,325.00"},
+    {"date": "2026-07-05", "description": "Rent received", "memo": "July base rent", "unit": "14", "amount": "1,600.00"},
+    {"date": "2026-07-09", "description": "Late fee", "memo": "12B - received 2 days late", "unit": "12B", "amount": "75.00"}
+  ],
+  "expenses": [
+    {"date": "2026-07-31", "description": "Management fee", "explanation": "The monthly fee, 8% of the 4,375.00 base rent collected.", "unit": "ALL", "amount": "350.00"},
+    {"date": "2026-07-18", "description": "Maintenance - Ridgeline Plumbing", "explanation": "Kitchen faucet cartridge replacement in unit 12A.", "unit": "12A", "amount": "180.00"},
+    {"date": "2026-07-05", "description": "Landscaping - GreenSpan", "explanation": "The monthly grounds contract.", "unit": "ALL", "amount": "145.00"},
+    {"date": "2026-07-22", "description": "Water / sewer - City Utilities", "explanation": "The July utility billing.", "unit": "ALL", "amount": "212.40"}
+  ],
+  "distributions": [
+    {"date": "2026-07-31", "description": "Owner distribution", "amount": "3,600.00"}
+  ],
+  "flags": [],
+  "attention_next_month": "Nothing needs your attention before next month.",
+  "questions": [
+    {"question": "What was the management fee calculated on?", "answer": "It is 8% of the 4,375.00 of base rent collected in July. The 75.00 late fee is not included."},
+    {"question": "Could the plumbing repair have been avoided?", "answer": "The statement records a kitchen faucet cartridge replacement in unit 12A for 180.00. It does not say what caused it, so we would check the work order before answering that."},
+    {"question": "Why is 1,202.60 left in the account?", "answer": "That is the ending balance the statement shows after your 3,600.00 distribution went out on the 31st."}
+  ],
+  "distribution_history": [
+    {"period": "2026-01", "amount": "3,600.00"},
+    {"period": "2026-02", "amount": "3,675.00"},
+    {"period": "2026-03", "amount": "3,540.00"},
+    {"period": "2026-04", "amount": "3,610.00"},
+    {"period": "2026-05", "amount": "3,480.00"},
+    {"period": "2026-06", "amount": "3,600.00"}
+  ],
+  "sign_off": "Ridgeline Property Management",
+  "handoff": "DRAFT - not sent. 0 flags open. Human review required before release."
+}

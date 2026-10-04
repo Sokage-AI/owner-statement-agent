@@ -4,6 +4,21 @@ Pick one path. Claude is the shortest route and the only platform covered by the
 test record. ChatGPT Projects and Codex can use the same package, but they have not been included in
 that published model sweep.
 
+## Claude skill install
+
+The versioned ZIP can be installed as a custom Claude skill:
+
+1. Open **Settings**, then **Capabilities**, and turn on **Code execution and file creation**.
+2. Open **Customize**, then **Skills**. Click **+**, **Create skill**, then **Upload a skill**.
+3. Upload `owner-statement-agent-v1.1.0.zip`.
+4. Create a Claude Project named `Owner Statement Agent`.
+5. Add `owner-profile.md` and `history.md` from the extracted ZIP to the Project.
+6. Attach one sample CSV to a fresh Project chat and ask Claude to use the
+   `owner-statement-agent` skill.
+
+The published 159-run record tested the prompt procedure in separate Claude contexts. It did not
+test Claude's skill-upload interface, so run the three samples below after installing the ZIP.
+
 ## Claude quick test
 
 Download the repository with **Code**, then **Download ZIP**. Extract the folder and keep its files
@@ -47,6 +62,32 @@ Use a new Project chat for every sample. Send the same one-line message each tim
 All names and figures in these samples are invented. Do not upload a live owner statement, resident
 record, bank detail, or property address while learning the setup.
 
+## The owner report
+
+After any run that produced a draft, send one word in the same chat:
+
+> report
+
+On ChatGPT, send: `Follow PROMPT.md. report`
+
+The agent replies with a line saying `OWNER REPORT DATA`, one block of data, and the same handoff
+line. Then:
+
+1. Click the copy button on the data block.
+2. Open `owner-report.html` from the downloaded folder. It opens in your browser.
+3. Paste into the box and click **Build the report**.
+4. Set your colour and logo once. The page remembers them on this computer.
+5. Read the **Before this goes to the owner** panel. Check every figure against the statement.
+6. Tick the review box, then **Save as PDF or print**.
+
+Nothing is uploaded. The page works with no internet connection. Click **Show an example** to see
+the clean sample month first.
+
+If a charge says `NEEDS A HUMAN`, the review box stays locked. Get the description from the work
+order or invoice, correct the export through your normal process, and run the agent again.
+
+There is no report after a stop. Fix what the agent named first.
+
 ## Before a live statement
 
 The downloaded prompt starts with this fictional test setup:
@@ -61,7 +102,9 @@ Approved owners:           Marcus Webb
 Sign-off:                  Ridgeline Property Management
 ```
 
-Replace all seven values with your firm's real rules before using a real statement. Then replace the
+Replace all seven values with your firm's real rules before using a real statement. Since v1.1 the
+agent stops if the owner in the export is not on the `Approved owners` line, so put every owner you
+will run there, separated by commas, or change the line each time you switch owners. Then replace the
 sample contents of `owner-profile.md` and `history.md` with one matching owner's information.
 
 ## ChatGPT Project
@@ -115,7 +158,8 @@ Stop if:
 
 - The export contains more than one owner.
 - The month is not marked reconciled and closed.
-- The profile or history belongs to a different owner.
+- The owner is not on the `Approved owners` line. The agent stops on this since v1.1.
+- The profile or history belongs to a different owner. The agent cannot check this. You must.
 - The fee basis, reserve floor, or review level is missing.
 - The agent changes a figure instead of restating it.
 

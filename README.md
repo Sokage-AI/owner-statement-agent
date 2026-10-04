@@ -60,6 +60,11 @@ The response is split into seven working sections:
 6. Owner update
 7. Likely questions
 
+**New in v1.1: the owner report.** Send the word `report` after a run and paste what comes back into
+[owner-report.html](owner-report.html). You get a finished report for the owner, in your firm's colour,
+ready to save as a PDF. It opens in your browser and nothing leaves your computer. Click **Show an
+example** on that page to see one before you run anything.
+
 The owner update comes in a plain-text code block so it is easy to copy. Every run ends with one of
 two fixed handoff lines:
 
@@ -79,6 +84,7 @@ stop, not an invitation to guess which number looks right.
 | [owner-profile.md](owner-profile.md) | The sample owner profile and a template for known patterns and standing questions |
 | [history.md](history.md) | The sample prior-period totals used for history-based checks |
 | [SKILL.md](SKILL.md) | The same workflow packaged as an agent skill for Codex |
+| [owner-report.html](owner-report.html) | Turns the agent's report data into a finished owner report you can save as a PDF |
 | [check.py](check.py) | An optional local arithmetic check with no model or network call |
 
 For this released version, keep one owner profile and one history file in the Project while running
@@ -90,7 +96,9 @@ ready for the fictional samples. Replace their sample values before using a real
 | File or folder | What is inside |
 |---|---|
 | [sample-exports/](sample-exports/) | Three CSV files for the first runs |
-| [tests/](tests/) | Fourteen adversarial test statements |
+| [tests/](tests/) | Sixteen test statements: fourteen adversarial, plus the v1.1 owner check and report |
+| [sample-reports/](sample-reports/) | The report data for the clean sample month |
+| [CHANGELOG.md](CHANGELOG.md) | What changed in each version |
 | [test-results/](test-results/) | Fifteen readable outputs and an archive containing all 159 runs |
 | [FAILURES.md](FAILURES.md) | What broke, what was fixed, and what remains unproven |
 | [NEVER.md](NEVER.md) | Fourteen rules the agent must not break |
@@ -131,9 +139,12 @@ The complete list is in [NEVER.md](NEVER.md). These four decide whether the agen
 
 ## Testing
 
-The released prompt completed 159 independent synthetic runs across Claude Opus 5, Sonnet 5, and
+The v1.0 prompt completed 159 independent synthetic runs across Claude Opus 5, Sonnet 5, and
 Haiku 4.5. All 159 passed the recorded checks. Fifty-nine runs attempted prompt injection across
 five different placements and phrasings.
+
+v1.1 adds the owner check and the optional report. Those two changes are covered by tests 15 and 16,
+not by the 159-run record. See [CHANGELOG.md](CHANGELOG.md).
 
 Each run used a separate context. The checks used literal strings and expected output positions,
 not another model grading the response. The complete count and the two grader corrections are in
