@@ -10,7 +10,7 @@ The versioned ZIP can be installed as a custom Claude skill:
 
 1. Open **Settings**, then **Capabilities**, and turn on **Code execution and file creation**.
 2. Open **Customize**, then **Skills**. Click **+**, **Create skill**, then **Upload a skill**.
-3. Upload `owner-statement-agent-v1.1.0.zip`.
+3. Upload the zip you downloaded from sokage.com, unchanged.
 4. Create a Claude Project named `Owner Statement Agent`.
 5. Add `owner-profile.md` and `history.md` from the extracted ZIP to the Project.
 6. Attach one sample CSV to a fresh Project chat and ask Claude to use the
