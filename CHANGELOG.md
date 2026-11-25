@@ -2,7 +2,7 @@
 
 ## Plugin packaging, 25 Nov 2026
 
-- Added `.claude-plugin/plugin.json` and `skills/owner-statement-agent/SKILL.md` so the repo installs as a Claude plugin. The skill body is the same as the root `SKILL.md`, with paths pointing back to the root files.
+- Added `plugin/`, the Claude plugin package (text files only), rebuilt from the root files by `sync-plugin.sh`. Manifest and icon live in `plugin-src/`.
 - Moved `all-159-runs.zip` out of the repo to a release download, linked from `test-results/README.md`.
 
 ## v1.1.0 (2026-10-04)
