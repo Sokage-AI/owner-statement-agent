@@ -1,5 +1,10 @@
 # Changelog
 
+## Plugin packaging, 25 Nov 2026
+
+- Added `.claude-plugin/plugin.json` and `skills/owner-statement-agent/SKILL.md` so the repo installs as a Claude plugin. The skill body is the same as the root `SKILL.md`, with paths pointing back to the root files.
+- Moved `all-159-runs.zip` out of the repo to a release download, linked from `test-results/README.md`.
+
 ## v1.1.0 (2026-10-04)
 
 **New: the owner report.** After a run that produced a draft, send the word `report`. The agent

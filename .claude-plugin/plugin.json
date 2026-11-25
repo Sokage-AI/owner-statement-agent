@@ -1,0 +1,11 @@
+{
+  "name": "owner-statement-agent",
+  "version": "1.1.0",
+  "description": "Drafts a plain-language owner update from one closed property management statement or month-end export. Checks the stated totals, stops when they do not tie out, and never sends anything.",
+  "author": { "name": "Sokage AI", "email": "contact@sokage.com", "url": "https://sokage.com" },
+  "homepage": "https://sokage.com/agents/owner-statement-agent/",
+  "repository": "https://github.com/Sokage-AI/owner-statement-agent",
+  "license": "MIT",
+  "keywords": ["property management", "owner statements", "real estate", "landlord", "accounting"],
+  "icon": ".claude-plugin/icon.png"
+}
