@@ -1,4 +1,4 @@
-<img src="assets/sokage-mark.svg" alt="Sokage" width="76" height="76">
+<img src="assets/sokage-mark.png" alt="Sokage" width="76" height="76">
 
 # Owner Statement Agent
 
